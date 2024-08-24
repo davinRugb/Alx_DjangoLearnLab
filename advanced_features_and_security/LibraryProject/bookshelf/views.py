@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import permission_required
 from django.shortcuts import render, get_object_or_404
 from .models import Article
 
-@permission_required('bookshelf.book', raise_exception=True)
+@permission_required('bookshelf.book_list', raise_exception=True)
 def article_detail(request, pk):
     article = get_object_or_404(Article, pk=pk)
     return render(request, 'article_detail.html', {'article': article})
