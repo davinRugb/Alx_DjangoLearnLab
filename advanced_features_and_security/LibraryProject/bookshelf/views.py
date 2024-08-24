@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import permission_required
 from django.shortcuts import render, get_object_or_404
 from .models import Article
+from .forms import BookForm
 
 @permission_required('bookshelf.book_list', raise_exception=True)
 def article_detail(request, pk):
@@ -23,4 +24,12 @@ def article_delete(request, pk):
     pass
 
 
+def create_book(request):
+    if request.method == 'POST':
+        form = BookForm(request.POST)
+        if form.is_valid():
+            form.save()
+    else:
+        form = BookForm()
+    return render(request, 'bookshelf/form_example.html', {'form': form})
 
