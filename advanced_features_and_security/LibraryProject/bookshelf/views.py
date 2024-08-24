@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import permission_required
 from django.shortcuts import render, get_object_or_404
 from .models import Article
 from .forms import BookForm
+from .forms import ExampleForm
 
 @permission_required('bookshelf.book_list', raise_exception=True)
 def article_detail(request, pk):
