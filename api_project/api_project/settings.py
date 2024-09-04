@@ -39,7 +39,18 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'api',
+    'rest_framework.authtoken',
 ]
+
+# settings.py
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',  # Optional: Keep session authentication if needed
+    ),
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
