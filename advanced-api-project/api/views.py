@@ -2,7 +2,11 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Book
 from .forms import BookForm  # Assuming you've created a form for Book
-
+from .serializers import BookSerializer
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 # ListView: To retrieve all books
 class BookListView(ListView):
     model = Book
@@ -35,5 +39,19 @@ class BookDeleteView(DeleteView):
     template_name = 'books/book_confirm_delete.html'  # Confirmation page template for deleting a book
     success_url = reverse_lazy('book-list')  # Redirect to the book list after successful deletion
 
+
+
+class BookViewSet(viewsets.ModelViewSet):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    @action(detail=True, methods=['put', 'patch'], permission_classes=[IsAuthenticated])
+    def update(self, request, *args, **kwargs):
+        return super().update(request, *args, **kwargs)
+
+    @action(detail=True, methods=['delete'], permission_classes=[IsAuthenticated])
+    def destroy(self, request, *args, **kwargs):
+        return super().destroy(request, *args, **kwargs)
 
 
