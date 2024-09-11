@@ -4,3 +4,4 @@ api/
     └── test_views.py
 ["self", "class", "APITestCase"]
 'response.data'
+self.client.login
