@@ -7,6 +7,9 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import generics
+
 # ListView: To retrieve all books
 class BookListView(ListView):
     model = Book
@@ -54,4 +57,8 @@ class BookViewSet(viewsets.ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         return super().destroy(request, *args, **kwargs)
 
-
+class BookList(generics.ListAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['title', 'author', 'publication_year']
