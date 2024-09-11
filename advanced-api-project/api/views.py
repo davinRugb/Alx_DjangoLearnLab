@@ -10,6 +10,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticate
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
 from django_filters import rest_framework
+from rest_framework.filters import OrderingFilter
 
 # ListView: To retrieve all books
 class BookListView(ListView):
@@ -63,3 +64,10 @@ class BookList(generics.ListAPIView):
     serializer_class = BookSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['title', 'author', 'publication_year']
+
+class BookListView(generics.ListAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    filter_backends = [OrderingFilter]
+    ordering_fields = ['title', 'author', 'publication_date']  # Fields you allow ordering on
+    ordering = ['title']  # Default ordering
