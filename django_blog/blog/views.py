@@ -13,6 +13,8 @@ from django.urls import reverse_lazy
 from .models import Comment
 from .forms import CommentForm  # Make sure you have a CommentForm defined in forms.py
 from django.shortcuts import get_object_or_404
+from django.db.models import Q
+from .models import Post
 
 class CustomLoginView(LoginView):
     template_name = 'blog/login.html'
@@ -135,3 +137,17 @@ class PostDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['comments'] = Comment.objects.filter(post=self.object)
         return context
+
+
+def search_posts(request):
+    query = request.GET.get('q')
+    if query:
+        posts = Post.objects.filter(
+            Q(title__icontains=query) | 
+            Q(content__icontains=query) | 
+            Q(tags__name__icontains=query)
+        ).distinct()
+    else:
+        posts = Post.objects.none()
+
+    return render(request, 'blog/search_results.html', {'posts': posts, 'query': query})
