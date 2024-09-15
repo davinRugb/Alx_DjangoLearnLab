@@ -77,11 +77,7 @@ WSGI_APPLICATION = 'django_blog.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Davin',
-        'USER': 'davinrugb',
-        'PASSWORD': 'davin123neymar',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        "NAME":  str(BASE_DIR / 'db.sqlite3')
     }
 }
 
@@ -128,10 +124,21 @@ STATICFILES_DIRS = [
 
 TEMPLATES = [
     {
-        'DIRS': [BASE_DIR / 'templates'],
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',  # Ensure this is properly defined
+        'DIRS': [BASE_DIR / 'templates'],  # This is where you define the directories for your custom templates
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
     },
 ]
 
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+STATIC_URL = '/static/'
