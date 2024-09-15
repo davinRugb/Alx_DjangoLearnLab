@@ -1,0 +1,10 @@
+<h2>All Blog Posts</h2>
+<ul>
+    {% for post in posts %}
+        <li>
+            <h3><a href="{% url 'post-detail' post.pk %}">{{ post.title }}</a></h3>
+            <p>{{ post.content|truncatewords:30 }}</p>
+            <small>Posted by {{ post.author }} on {{ post.date_posted }}</small>
+        </li>
+    {% endfor %}
+</ul>
