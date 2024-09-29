@@ -16,7 +16,7 @@ class UserRegistrationserializer(serializers.ModelSerializer):
         extra_kwards = {'password': {'write_only': True}}
     
     def create(self, validated_data):
-        created_user = get_user_model.objects.create_user(
+        created_user = get_user_model().objects.create_user(
             email = validated_data['email'],
             password = validated_data['password'],
             username = validated_data['username'],
