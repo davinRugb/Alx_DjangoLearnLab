@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
+from rest_framework.authtoken.models import Token
  
 User = get_user_model
 
@@ -10,7 +11,7 @@ class UserSerializers(serializers.ModelSerializer):
 
 class UserRegistrationserializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = get_user_model
         fields = ['email', 'profile_picture', 'password', 'username']
         extra_kwards = {'password': {'write_only': True}}
     
@@ -22,6 +23,10 @@ class UserRegistrationserializer(serializers.ModelSerializer):
         )
 
         return created_user
+    
+        Token.objects.create(user=user)
+        
+        return user
 
 class Userloginserializers(serializers.Serializer):
     email = serializers.EmailField()
