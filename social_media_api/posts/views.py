@@ -112,3 +112,6 @@ class PostDetailView(generics.RetrieveAPIView):
         # Correctly use get_object_or_404 to retrieve the post
         post = get_object_or_404(Post, pk=pk)
         return Response({"post": post.title, "content": post.content}, status=200)
+    
+
+    generics.get_object_or_404(Post, pk=pk)"]
